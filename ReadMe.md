@@ -5,10 +5,10 @@
 
 ## Getting Started
 
-### Requirements
+## Requirements
 
-- g++
-- gdb
+- g++ [Download here](https://code.visualstudio.com/docs/languages/cpp)
+- gdb (if you want to debug) [Download here](https://code.visualstudio.com/docs/languages/cpp)
 
 ### Running the Program
 
