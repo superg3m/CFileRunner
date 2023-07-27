@@ -23,7 +23,6 @@ Clear-Host
 
 $inSourceDir = ($PWD.Path.EndsWith("Source"))
 
-
 Write-ColoredText "--------------------------" -ForegroundColor "White"
 if (-not ($PWD.Path.EndsWith("Source"))) {
     Set-Location -Path "$PWD\Source"
