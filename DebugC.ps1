@@ -23,7 +23,6 @@ Clear-Host
 
 $inSourceDir = ($PWD.Path.EndsWith("Source"))
 
-
 Write-ColoredText "--------------------------" -ForegroundColor "White"
 if (-not ($PWD.Path.EndsWith("Source"))) {
     Set-Location -Path "$PWD\Source"
@@ -35,7 +34,7 @@ if (-not ($PWD.Path.EndsWith("Source"))) {
     }
 }
 
-Remove-Item -Path "CompilationErrors.txt" -ErrorAction SilentlyContinue
+Remove-Item -Path "CompilationErrors.txt" -ErrorAction SilentlyContinue -Force
 
 $hasCFiles = 0
 $hasCppFiles = 0
@@ -48,14 +47,14 @@ if (Test-Path -Path "*.cpp") {
 }
 
 if (Test-Path -Path "Output.exe") {
-    Remove-Item -Path "Output.exe" -ErrorAction SilentlyContinue
+    Remove-Item -Path "Output.exe" -ErrorAction SilentlyContinue -Force
 }
 
 $errorsFile = "CompilationErrors.txt"
 
 if ($hasCFiles -eq 1) {
     Write-ColoredText "Compiling C code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ -pedantic *.c -o Output -pedantic 2>&1
+    $compilationOutput = g++ -Wall -Wextra -Wconversion -pedantic-errors *.c -o Output  2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
@@ -65,7 +64,7 @@ if ($hasCFiles -eq 1) {
     }
 } elseif ($hasCppFiles -eq 1) {
     Write-ColoredText "Compiling C++ code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ -pedantic *.cpp -o Output -pedantic 2>&1
+    $compilationOutput = g++ -Wall -Wextra -Wconversion -pedantic-errors *.cpp -o Output 2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
@@ -88,4 +87,4 @@ if (-not $inSourceDir) {
     Set-Location ..
 }
 
-Remove-Item -Path $errorsFile -ErrorAction SilentlyContinue
+Remove-Item -Path $errorsFile -ErrorAction SilentlyContinue -Force

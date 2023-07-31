@@ -34,7 +34,7 @@ if (-not ($PWD.Path.EndsWith("Source"))) {
     }
 }
 
-Remove-Item -Path "CompilationErrors.txt" -ErrorAction SilentlyContinue
+Remove-Item -Path "CompilationErrors.txt" -ErrorAction SilentlyContinue -Force
 
 $hasCFiles = 0
 $hasCppFiles = 0
@@ -47,7 +47,7 @@ if (Test-Path -Path "*.cpp") {
 }
 
 if (Test-Path -Path "Output.exe") {
-    Remove-Item -Path "Output.exe" -ErrorAction SilentlyContinue
+    Remove-Item -Path "Output.exe" -ErrorAction SilentlyContinue -Force
 }
 
 $errorsFile = "CompilationErrors.txt"
@@ -87,4 +87,4 @@ if (-not $inSourceDir) {
     Set-Location ..
 }
 
-Remove-Item -Path $errorsFile -ErrorAction SilentlyContinue
+Remove-Item -Path $errorsFile -ErrorAction SilentlyContinue -Force
