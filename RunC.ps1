@@ -54,7 +54,7 @@ $errorsFile = "CompilationErrors.txt"
 
 if ($hasCFiles -eq 1) {
     Write-ColoredText "Compiling C code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ *.c -o Output -pedantic 2>&1
+    $compilationOutput = g++ -pedantic *.c -o Output  2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
@@ -64,7 +64,7 @@ if ($hasCFiles -eq 1) {
     }
 } elseif ($hasCppFiles -eq 1) {
     Write-ColoredText "Compiling C++ code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ *.cpp -o Output -pedantic 2>&1
+    $compilationOutput = g++ -pedantic *.cpp -o Output 2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
