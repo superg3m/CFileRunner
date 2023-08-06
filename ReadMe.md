@@ -22,7 +22,7 @@
 
 - `powershell -ExecutionPolicy Bypass -File ../CFileRunner/DebugC.ps1`
 
-### Adding CompilerFlags and Libraries (Open RunC.ps1 or Debug.ps1 and change the following lines)
+### Adding CompilerFlags and Libraries (Open RunC.ps1 or Debug.ps1)
 
 - `$libraryPath = "../Libs"`
 - `$CompilerFlags = "" # Add custom flags here (e.g., "-Wall -O3")`
