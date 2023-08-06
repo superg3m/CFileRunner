@@ -23,6 +23,11 @@ Clear-Host
 
 $inSourceDir = ($PWD.Path.EndsWith("Source"))
 
+$libraryPath = "../Libs"
+
+$CompilerFlags = ""     # Add custom flags here (e.g., "-Wall -O3")
+$Libraries = ""    	# link libraries here (e.g., "-lm -lYourLibraryNameHere")
+
 Write-ColoredText "--------------------------" -ForegroundColor "White"
 if (-not ($PWD.Path.EndsWith("Source"))) {
     Set-Location -Path "$PWD\Source"
@@ -54,7 +59,7 @@ $errorsFile = "CompilationErrors.txt"
 
 if ($hasCFiles -eq 1) {
     Write-ColoredText "Compiling C code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ -Wall -Wextra -Wconversion -pedantic-errors *.c -o Output  2>&1
+    $compilationOutput = g++ *.c $CompilerFlags -L$libraryPath $Libraries -o Output  2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
@@ -64,7 +69,7 @@ if ($hasCFiles -eq 1) {
     }
 } elseif ($hasCppFiles -eq 1) {
     Write-ColoredText "Compiling C++ code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ -Wall -Wextra -Wconversion -pedantic-errors *.cpp -o Output 2>&1
+    $compilationOutput = g++ *.cpp $CompilerFlags -L$libraryPath $Libraries -o Output 2>&1
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
