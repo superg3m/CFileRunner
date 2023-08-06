@@ -1,4 +1,4 @@
-Runs/Debugs C and C++ code
+Runs/Debugs C/C++ code
 
 Requirements: 
 	g++ 
