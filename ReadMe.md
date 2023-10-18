@@ -24,9 +24,9 @@
 
 ### Adding CompilerFlags and Libraries (Open RunC.ps1 or Debug.ps1)
 
-- `$libraryPath = "../Libs"`
-- `$CompilerFlags = "" # Add custom flags here (e.g., "-Wall -O3")`
-- `$Libraries = "" # link libraries here (e.g., "-lm -YourLibraryNameHere")`
+- `$CompilerFlags = @("-Wall", "-pedantic")   # Add custom flags here (e.g., "-Wall")`
+- `$libraryPath = @("", "")            # Example: -L<Path> ../Libs`
+- `$Libraries = @("-luser32", "")         # link libraries here (e.g., "-lm -lYourLibraryNameHere")`
 
 ## License
 
