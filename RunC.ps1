@@ -23,9 +23,8 @@ Clear-Host
 
 $inSourceDir = ($PWD.Path.EndsWith("Source"))
 
-$CompilerFlags = @("-Wall", "-pedantic")   # Add custom flags here (e.g., "-Wall")
-$libraryPath = @("", "")            # Example: -L<Path> ../Libs
-$Libraries = @("-luser32", "")         # link libraries here (e.g., "-lm -lYourLibraryNameHere")
+$CompilerFlags = ""     # Add custom flags here (e.g., "-Wall -O3")
+$Libraries = "-lgdi32"    	# link libraries here (e.g., "-lm -lYourLibraryNameHere")
 
 Write-ColoredText "--------------------------" -ForegroundColor "White"
 if (-not ($PWD.Path.EndsWith("Source"))) {
@@ -57,25 +56,40 @@ if (Test-Path -Path "Output.exe") {
 $errorsFile = "CompilationErrors.txt"
 
 if ($hasCFiles -eq 1) {
+    
+    #do your job
+    
+
+    #get timespan
+    
     Write-ColoredText "Compiling C code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ *.c @($CompilerFlags) @($libraryPath) @($Libraries) -o Output  2>&1
+    
+    $timer = [System.Diagnostics.Stopwatch]::StartNew()
+    $compilationOutput = gcc $CompilerFlags *.c $Libraries -o Output  2>&1
+    $timer.Stop()
+
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
         Write-Host $compilationOutput
     } else {
-        Write-ColoredText "No compilation errors" -ForegroundColor "Green"
+        Write-ColoredText "No compilation errors | Compilation Time: $($timer.ElapsedMilliseconds)ms" -ForegroundColor "Green"
     }
+
 } elseif ($hasCppFiles -eq 1) {
     Write-ColoredText "Compiling C++ code..." -ForegroundColor "Yellow"
-    $compilationOutput = g++ *.cpp @($CompilerFlags) @($libraryPath) @($Libraries) -o Output 2>&1
+    $timer = [System.Diagnostics.Stopwatch]::StartNew()
+    $compilationOutput = g++ $CompilerFlags *.cpp $Libraries -o Output 2>&1
+    $timer.Stop()
+
     if ($LASTEXITCODE -ne 0) {
         $compilationOutput | Out-File -FilePath $errorsFile
         Write-ColoredText "Compilation errors detected" -ForegroundColor "Red"
         Write-Host $compilationOutput
     } else {
-        Write-ColoredText "No compilation errors" -ForegroundColor "Green"
+        Write-ColoredText "No compilation errors | Compilation Time: $($timer.ElapsedMilliseconds)ms" -ForegroundColor "Green"
     }
+
 } else {
     Write-ColoredText "No C or C++ files found." -ForegroundColor "Red"
     exit 1
